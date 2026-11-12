@@ -71,6 +71,23 @@ public class ClienteRepositoryTests : IDisposable
             excepcion.Message);
     }
 
+    //Prueba de integración: Implemente una prueba que compruebe que, 
+    // al consultar un identificador inexistente mediante el servicio y
+    // el repositorio real, utilizando SQLite, se obtiene un resultado nulo.
+    [Fact]
+    public void ObtenerPorId_IdInexistente_DeberRetornarNulo()
+    {
+        //Arrange: servicio real con repositorio real y base SQLite temporal vacía
+        var service = new ClienteService(_repository);
+
+        //Act: consultar un identificador que no existe
+        var resultado = service.ObtenerPorId(999);
+
+        //Assert: no se encontró ningún cliente
+        Assert.Null(resultado);
+        
+    }    
+
 
     public void Dispose()
     {
