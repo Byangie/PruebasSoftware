@@ -129,6 +129,36 @@ public class ClienteServiceTests
             r => r.Agregar(It.IsAny<Cliente>()),
             Times.Never);
     }
+    //Prueba unitaria: Implemente una prueba para ClienteService.ObtenerPorId, utilizando Moq, 
+    //que compruebe que el servicio devuelve el cliente esperado y que consulta al repositorio una vez.
+    [Fact]
+    public void ObtenerPorId_ClienteExistente_DebeRetornarClienteYConsultarRepositorioUnaVez()
+    {
+        // Arrange: el mock devolverá este cliente cuando se pida el id 1
+        var clienteEsperado = new Cliente
+        {
+            Id = 1,
+            Nombre = "Angelica Mejía",
+            Correo = "amejiat4@miumg.edu.gt"
+        };
 
+        _repositoryMock
+            .Setup(r => r.ObtenerPorId(1))
+            .Returns(clienteEsperado);
+
+        // Act: ejecutar el método que probamos
+        var resultado = _service.ObtenerPorId(1);
+
+        // Assert: el servicio devuelve el cliente esperado
+        Assert.NotNull(resultado);
+        Assert.Equal(1, resultado.Id);
+        Assert.Equal("Angelica Mejía", resultado.Nombre);
+        Assert.Equal("amejiat4@miumg.edu.gt", resultado.Correo);
+
+        // Assert: el repositorio fue consultado exactamente una vez
+        _repositoryMock.Verify(
+            r => r.ObtenerPorId(1),
+            Times.Once);
+    }
 
 }
