@@ -119,7 +119,7 @@ public class ClientesApiTests
         using var client = factory.CreateClient();
 
         //Act: consultar un id que no existe
-        var response = await client.GetAsync("/api/Clientes/21");
+        var response = await client.GetAsync("/api/Clientes/999999");
 
         //Assert: la API responde 404 Not Found
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
